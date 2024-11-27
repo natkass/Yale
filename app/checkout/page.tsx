@@ -6,7 +6,22 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { isValidCardNumber, isValidCreditCardCVVOrCVC, isValidCreditCardExpirationDate, isValidEmailAddressFormat, isValidNameOrLastname } from "@/lib/utils";
-
+import {
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Card,
+  CardHeader,
+  Input,
+  Typography,
+  Button,
+  CardBody,
+  CardFooter,
+  Select,
+  Option,
+  IconButton,
+} from "@material-tailwind/react";
 const CheckoutPage = () => {
   const [checkoutForm, setCheckoutForm] = useState({
     name: "",
@@ -25,9 +40,18 @@ const CheckoutPage = () => {
     postalCode: "",
     orderNotice: "",
   });
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
   const { products, total, clearCart } = useProductStore();
   const router = useRouter();
+  const [openDelete, setOpenDelete] = useState(false); // Start with 'false' (closed state)
 
+  const handleOpenDelete = () => {
+    setOpenDelete(prevState => !prevState); // Toggle between true/false
+  };
   const makePurchase = async () => {
     if (
       checkoutForm.name.length > 0 &&
@@ -160,7 +184,37 @@ const CheckoutPage = () => {
     });
   };
 
+  const handleChapaPayment = (e) => {
+    e.preventDefault();
+    // Validation can go here
+    console.log(checkoutForm);
+    // Call your API to submit the form data
+  };
+  const handleTelebirrPayment = async () => {
+    try {
+      const payload = {
+        outTradeNo: `telebirr_${Date.now()}`,
+        subject: "Payment for order",
+        totalAmount: total, // Total payment amount
+        notifyUrl: "https://yourdomain.com/payment-notification",
+        returnUrl: "https://yourdomain.com/payment-success",
+      };
   
+      const response = await axios.post("https://api.telebirr.com/payment-gateway", payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer your-access-token", // Replace with your API token
+        },
+      });
+  
+      if (response.data.code === "SUCCESS") {
+        window.location.href = response.data.paymentUrl; // Redirect to Telebirr payment page
+      }
+    } catch (error) {
+      console.error("Telebirr Payment Error:", error);
+      alert("Failed to initiate payment. Please try again.");
+    }
+  };
 
   useEffect(() => {
     if (products.length === 0) {
@@ -668,7 +722,41 @@ const CheckoutPage = () => {
           </div>
         </form>
       </main>
-    </div>
+    
+    <div className="flex justify-between mt-6">
+  <button
+    onClick={handleOpenDelete}
+    className="bg-blue-600 text-white rounded-md px-4 py-2"
+  >
+    Pay with Chapa
+  </button>
+  <button
+    onClick={handleTelebirrPayment}
+    className="bg-yellow-600 text-white rounded-md px-4 py-2"
+  >
+    Pay with Telebirr
+  </button>
+</div>
+<Dialog open={openDelete} handler={handleChapaPayment} className="fixed inset-0 flex justify-center items-center">
+  <form method="POST" action="https://api.chapa.co/v1/hosted/pay" className="bg-white p-6 rounded-md shadow-lg">
+    <input type="hidden" name="public_key" value="CHAPUBK_TEST-v93XDS1oVySh0RmNGlUVYFyCYKknCeYY" />
+    <input type="hidden" name="tx_ref" value="negade-tx-12345678sss2" />
+    <input type="hidden" name="amount" value={total === 0 ? 0 : Math.round(total + total / 5 + 5)}/>
+    <input type="hidden" name="currency" value="ETB" />
+    <input type="hidden" name="email" value={checkoutForm.email} />
+    <input type="hidden" name="first_name" value={checkoutForm.name} />
+    <input type="hidden" name="last_name" value={checkoutForm.lastname}/>
+    <input type="hidden" name="title" value="Let us do this" />
+    <input type="hidden" name="description" value="Paying with Confidence with cha" />
+    <input type="hidden" name="logo" value="https://chapa.link/asset/images/chapa_swirl.svg" />
+    <input type="hidden" name="callback_url" value="https://example.com/callbackurl" />
+    <input type="hidden" name="return_url" value="https://example.com/returnurl" />
+    <input type="hidden" name="meta[title]" value="test" />
+    <button type="submit" className="bg-blue-600 text-white rounded-md px-4 py-2">Pay Now</button>
+  </form>
+</Dialog>
+
+</div>
   );
 };
 
