@@ -1,62 +1,62 @@
 export const categoryMenuList = [
   {
     id: 1,
-    title: "Smart Phones",
-    src: "/smart phone icon.png",
+    title: "Electronic door lock",
+    src: "/digital-door.png",
     href: "/shop/smart-phones"
   },
   {
     id: 2,
-    title: "Tablets",
-    src: "/tablet icon.png",
+    title: "Pin locks",
+    src: "/pin lock.png",
     href: "/shop/tablets"
   },
   {
     id: 3,
-    title: "Mouses",
-    src: "/mouse icon.png",
+    title: "Door knobs",
+    src: "/door-knob.png",
     href: "/shop/mouses"
   },
   {
     id: 4,
-    title: "Cameras",
-    src: "/camera icon.png",
+    title: "Door handles",
+    src: "/door-handle.png",
     href: "/shop/cameras"
   },
   {
     id: 5,
-    title: "Smart Watches",
-    src: "/smart watch.png",
+    title: "handlesets",
+    src: "/handleset.png",
     href: "/shop/watches"
   },
   {
     id: 6,
-    title: "Laptops",
-    src: "/laptop icon.png",
+    title: "Key card locks",
+    src: "/key-card.png",
     href: "/shop/laptops"
   },
   {
     id: 7,
-    title: "PCs",
-    src: "/pc icon.png",
+    title: "Smart doors",
+    src: "/smart-door.png",
     href: "/shop/computers"
   },
   {
     id: 8,
-    title: "Printers",
-    src: "/printers icon.png",
+    title: "Barn Doors",
+    src: "/red-barn.png",
     href: "/shop/printers"
   },
   {
     id: 9,
-    title: "Earbuds",
-    src: "/ear buds icon.png",
+    title: "Combination locks",
+    src: "/combination-lock.png",
     href: "/shop/earbuds"
   },
   {
     id: 10,
-    title: "Head Phones",
-    src: "/headphone icon.png",
+    title: "Biometric lock",
+    src: "/biometric lock.png",
     href: "/shop/headphones"
   },
 ];

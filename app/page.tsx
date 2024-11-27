@@ -5,8 +5,11 @@ export default function Home() {
     <>
     <Hero />
     <IntroducingSection />
+    {/* <BlogSection /> */}
     <CategoryMenu />
     <ProductsSection />
+    {/* <TestimonySection /> */}
+
     </>
   );
 }

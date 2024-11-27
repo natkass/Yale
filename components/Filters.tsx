@@ -1,7 +1,7 @@
 // *********************
 // Role of the component: Filters on shop page
 // Name of the component: Filters.tsx
-// Developer: Aleksandar Kuzmanovic
+// Developer: Nathnael Kassa
 // Version: 1.0
 // Component call: <Filters />
 // Input parameters: no input parameters
@@ -105,8 +105,8 @@ const Filters = () => {
           <input
             type="range"
             min={0}
-            max={3000}
-            step={10}
+            max={300000}
+            step={30}
             value={inputCategory.priceFilter.value}
             className="range"
             onChange={(e) =>
